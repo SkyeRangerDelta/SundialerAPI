@@ -1,12 +1,15 @@
 // -- test
 
 //Imports
-import express from 'express';
+import express, {Router} from 'express';
 import statusControl from '../controllers/test';
+import {SAPIRouter} from "../types/SAPIRouter";
 
 //Functions
 const router = express.Router();
 
-router.get('/ping', statusControl.status);
+router.get('/', statusControl.status);
 
-export = router;
+export const rt = router({
+    name: 'test'
+}) as SAPIRouter;
