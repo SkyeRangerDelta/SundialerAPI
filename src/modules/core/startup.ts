@@ -17,24 +17,20 @@ async function initAPI() {
     //Obtain routes
     const routes = await routeIndexer.indexRoutes();
 
-    // == Routers & Middleware ==
+    //BodyParser
+    api.use(bodyParser.json());
+    api.use(bodyParser.urlencoded({ extended: false }));
 
     //Logging
     api.use((req, res, next) => {
         logger.info(LOCALE, `Incoming Req: ${req.method} (URL: ${req.url}, IP: ${req.socket.remoteAddress})`);
 
         res.on('finish', () => {
-            logger.info(LOCALE, `Incoming Req: ${req.method} (URL: ${req.url}, IP: ${req.socket.remoteAddress})\nStatus: ${res.statusCode}`);
+            logger.info(LOCALE, `Finished Req: ${req.method} (URL: ${req.url}, IP: ${req.socket.remoteAddress})\nStatus: ${res.statusCode}`);
         });
 
         next();
     });
-
-    //BodyParser
-    api.use(bodyParser.urlencoded({ extended: false }));
-    api.use(bodyParser.json());
-
-    //API rules
 
     //Routes
     api.use('/api', routes);
@@ -46,7 +42,7 @@ async function initAPI() {
         return res.status(404).json({
             message: error.message
         });
-    })
+    });
 
     //Server
     const httpServer = http.createServer(api);

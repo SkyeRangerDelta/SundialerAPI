@@ -1,12 +1,10 @@
 // --- API Driver ---
 
 //Imports
-import dotenv from 'dotenv';
 import startup from './modules/core/startup';
 import Logger from "./config/Utils_Logger";
 
 //Declarations
-dotenv.config();
 const LOCALE = 'Server Index';
 
 //Functions

@@ -2,24 +2,47 @@
 
 import fs from 'fs';
 import * as path from 'path';
-import express, {Router} from "express";
+import express from "express";
 import {SAPIRouter} from "../../types/SAPIRouter";
-import utils_Logger from "../../config/Utils_Logger";
+import Logger from "../../config/Utils_Logger";
 
 const LOCALE = 'Route Indexer';
 
 export default {
     async indexRoutes(): Promise<express.Router> {
-        const appRouter = express();
-        const routesPath = path.join(__dirname, '../..', 'routes');
-        const routeIndex = fs.readdirSync(routesPath).filter(f => f.endsWith('.js'));
+        const appRouter = express.Router();
+        const routeIndex = getRoutes(false);
 
         for (const route of routeIndex) {
-            const rt = await import(`../../routes/${route}`) as SAPIRouter;
-            utils_Logger.info(LOCALE, `Indexing ${rt.name}`);
-            appRouter.use(`/${route}`, rt);
+            await import(`../../routes/${route}`).then(rt => {
+                const rtr: SAPIRouter = rt.default;
+                Logger.info(LOCALE, `Indexing ${rtr.name}`);
+                appRouter.use(`/${rtr.name}`, rtr.router);
+            });
         }
+
+        appRouter.get('/', (req, res, next) => {
+            res.send({
+                message: 'Online'
+            });
+        });
 
         return appRouter;
     }
+}
+
+export function getRoutes(simple: boolean) {
+    const routesPath = path.join(__dirname, '../..', 'routes');
+    const routeArr = fs.readdirSync(routesPath).filter(f => f.endsWith('.js'));
+
+    if (simple) {
+        const simpleRtArr = [];
+        for (const route of routeArr) {
+            simpleRtArr.push(route.substring(0, route.length - 3));
+        }
+
+        return simpleRtArr;
+    }
+
+    return routeArr;
 }

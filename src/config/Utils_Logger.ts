@@ -9,19 +9,19 @@ const getTimestamp = (): string => {
 }
 
 const info = (locale: string, message: string) => {
-    console.info(`[${getTimestamp()}] [${locale}] [INFO] ${message}`);
+    console.info(`[${getTimestamp()}] [INFO] [${locale}] ${message}`);
 }
 
 const warn = (locale: string, message: string) => {
-    console.info(colors.yellow(`[${getTimestamp()}] [${locale}] [WARN] ${message}`));
+    console.info(colors.yellow(`[${getTimestamp()}] [WARN] [${locale}] ${message}`));
 }
 
 const error = (locale: string, message: string) => {
-    console.info(colors.red(`[${getTimestamp()}] [${locale}] [ERROR] ${message}`));
+    console.info(colors.red(`[${getTimestamp()}] [ERROR] [${locale}] ${message}`));
 }
 
 const debug = (locale: string, message: string) => {
-    console.info(colors.cyan(`[${getTimestamp()}] [${locale}] [DEBUG] ${message}`));
+    console.info(colors.cyan(`[${getTimestamp()}] [DEBUG] [${locale}] ${message}`));
 }
 
 //Exports

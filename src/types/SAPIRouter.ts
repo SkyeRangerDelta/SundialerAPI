@@ -2,6 +2,13 @@
 
 import {Router} from "express";
 
-export interface SAPIRouter extends Router {
-    name: string
+export class SAPIRouter {
+    name: string;
+    router: Router;
+
+    constructor(name: string, router = Router()) {
+        this.name = name;
+        this.router = router;
+    }
 }
+
