@@ -1,4 +1,4 @@
-// -- test
+// -- Status --
 
 //Imports
 import {NextFunction, Request, Response} from 'express';
@@ -7,12 +7,11 @@ import {SAPIRouter} from "../types/SAPIRouter";
 import {getRoutes} from "../modules/core/routeIndexer";
 
 //Functions
-const LOCALE = 'API Router'
+const LOCALE = 'Status Route'
 const SRT = new SAPIRouter('Status');
 
-
 SRT.router.get('/', (req: Request, res: Response, next: NextFunction) => {
-    logging.info(LOCALE, 'Test status called.');
+    logging.info(LOCALE, 'Status called.');
 
     return res.send({
         APIState: 'Online',
