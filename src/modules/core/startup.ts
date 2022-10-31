@@ -33,7 +33,7 @@ async function initAPI() {
     });
 
     //Routes
-    api.use('/api', routes);
+    api.use('/', routes);
 
     //Error Handling
     api.use((req, res, next) => {
